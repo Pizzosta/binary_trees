@@ -7,7 +7,7 @@
  *
  * Return: If tree is NULL, the function must return 0
  *
- * A NULL pointer is not a leaf
+ * A NULL pointer is not a node
  */
 size_t binary_tree_nodes(const binary_tree_t *tree)
 {
