@@ -19,17 +19,14 @@ bst_t *bst_insert(bst_t **tree, int value)
         return (NULL);
     }
 
+    /* If tree is empty, create a new node as the root node */
     if (*tree == NULL)
     {
         *tree = binary_tree_node(NULL, value);
         return (*tree);
     }
 
-    if (value == (*tree)->n)
-    {
-        return (*tree);
-    }
-
+    /* If value is less than the current node, recursively insert to the left */
     if (value < (*tree)->n)
     {
         if ((*tree)->left == NULL)
@@ -42,7 +39,8 @@ bst_t *bst_insert(bst_t **tree, int value)
             return bst_insert(&((*tree)->left), value);
         }
     }
-    else
+    /* If value is greater than the current node, recursively insert to the right */
+    else if (value > (*tree)->n)
     {
         if ((*tree)->right == NULL)
         {
@@ -53,5 +51,10 @@ bst_t *bst_insert(bst_t **tree, int value)
         {
             return bst_insert(&((*tree)->right), value);
         }
+    }
+    /* If value is equal to the current node, ignore duplicate value */
+    else
+    {
+        return (*tree);
     }
 }
