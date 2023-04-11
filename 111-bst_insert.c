@@ -29,10 +29,18 @@ bst_t *bst_insert(bst_t **tree, int value)
 	}
 	if (value < (*tree)->value)
 	{
-		return bst_insert(&((*tree)->left), value);
+		bst_t *left_child = bst_insert(&((*tree)->left), value);
+		
+		if (left_child != NULL)
+			left_child->parent = *tree;
+		return (left_child);
 	}
 	else
 	{
-		return bst_insert(&((*tree)->right), value);
+		bst_t *right_child = bst_insert(&((*tree)->right), value);
+		
+		if (right_child != NULL)
+			right_child->parent = *tree;
+		return (right_child);
 	}
 }
