@@ -2,7 +2,7 @@
 
 /**
  * array_to_bst - builds a BST from an array.
- * 
+ *
  * @array: pointer to the first element of the array to be converted.
  * @size: number of element in the array.
  *
