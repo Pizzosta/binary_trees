@@ -1,43 +1,53 @@
 #include "binary_trees.h"
 
 /**
- * count_nnodes - Counts the number of nodes inside a tree
- * @root: Pointer to tree's root node
+ * tree_size - measures the sum of heights of a binary tree
+ * @tree: pointer to the root node of the tree to measure the height
  *
- * Return: Number of tree nodes
+ * Return: Height or 0 if tree is NULL
  */
-int count_nnodes(binary_tree_t *root)
+size_t tree_size(const binary_tree_t *tree)
 {
-	if (!root)
+	size_t height_l = 0;
+	size_t height_r = 0;
+
+	if (!tree)
 		return (0);
 
-	return (1 + count_h_nodes(root->left) +
-		    count_h_nodes(root->right));
+	if (tree->left)
+		height_l = 1 + tree_size(tree->left);
+
+	if (tree->right)
+		height_r = 1 + tree_size(tree->right);
+
+	return (height_l + height_r);
 }
 
 /**
- * heap_to_sorted_array - converts a BMH to a sorted array of integers
+ * heap_to_sorted_array - converts a Binary Max Heap
+ * to a sorted array of integers
+ *
  * @heap: pointer to the root node of the heap to convert
  * @size: address to store the size of the array
  *
- * Return: array of integers in descending order
- */
+ * Return: pointer to array sorted in descending order
+ **/
 int *heap_to_sorted_array(heap_t *heap, size_t *size)
 {
-	int i, nodes, *arr = NULL;
+	int i, *a = NULL;
 
-	*size = 0;
-	if (!heap)
+	if (!heap || !size)
 		return (NULL);
 
-	nodes = count_nnodes(heap);
-	arr = malloc(sizeof(*arr) * nodes);
-	if (!arr)
+	*size = tree_size(heap) + 1;
+
+	a = malloc(sizeof(int) * (*size));
+
+	if (!a)
 		return (NULL);
 
-	*size = nodes;
-	for (i = 0; i < nodes; i++)
-		arr[i] = heap_extract(&heap);
+	for (i = 0; heap; i++)
+		a[i] = heap_extract(&heap);
 
-	return (arr);
+	return (a);
 }
