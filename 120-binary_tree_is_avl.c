@@ -2,7 +2,6 @@
 
 /**
  * max - Computes the maximum of two integers.
- * 
  * @a: First integer.
  * @b: Second integer.
  *
@@ -10,60 +9,53 @@
  */
 int max(int a, int b)
 {
-    return (a > b ? a : b);
+	return (a > b ? a : b);
 }
 
 /**
  * height - Measures the height of a binary tree.
- * 
  * @tree: A pointer to the root node of the tree to measure the height.
  *
  * Return: If tree is NULL, return 0, else return height.
  */
 int height(const binary_tree_t *tree)
 {
-    if (tree)
-    {
-        int left_height = height(tree->left);
-        int right_height = height(tree->right);
-        return (1 + max(left_height, right_height));
-    }
-    return (0);
+	if (tree)
+	{
+		int left_height = height(tree->left);
+		int right_height = height(tree->right);
+
+		return (1 + max(left_height, right_height));
+	}
+	return (0);
 }
 
 /**
  * is_avl_helper - Checks if a binary tree is a valid AVL tree.
- *
  * @tree: A pointer to the root node of the tree to check.
- * @min: The minimum allowed value for nodes in the tree.
- * @max: The maximum allowed value for nodes in the tree.
  *
  * Return: If the tree is a valid AVL tree, 1, otherwise, 0.
  */
-int is_avl_helper(const binary_tree_t *tree, int min, int max)
+int is_avl_helper(const binary_tree_t *tree)
 {
-    if (tree)
-    {
-        if (tree->n <= min || tree->n >= max)
-            return (0);
+	if (tree)
+	{
+		int left_height = height(tree->left);
+		int right_height = height(tree->right);
+		int height_diff = abs(left_height - right_height);
 
-        int left_height = height(tree->left);
-        int right_height = height(tree->right);
-        int height_diff = abs(left_height - right_height);
-
-        if (height_diff <= 1 &&
-            is_avl_helper(tree->left, min, tree->n) &&
-            is_avl_helper(tree->right, tree->n, max))
-            return (1);
-        else
-            return (0);
-    }
-    return (1);
+		if (height_diff <= 1 &&
+		    is_avl_helper(tree->left) &&
+		    is_avl_helper(tree->right))
+			return (1);
+		else
+			return (0);
+	}
+	return (1);
 }
 
 /**
  * binary_tree_is_avl - Checks if a binary tree is a valid AVL tree.
- * 
  * @tree: A pointer to the root node of the tree to check.
  *
  * Return: 1 if tree is a valid AVL tree, and 0 otherwise.
@@ -71,7 +63,7 @@ int is_avl_helper(const binary_tree_t *tree, int min, int max)
  */
 int binary_tree_is_avl(const binary_tree_t *tree)
 {
-    if (tree == NULL)
-        return (0);
-    return (is_avl_helper(tree, INT_MIN, INT_MAX));
+	if (tree == NULL)
+		return (0);
+	return (is_avl_helper(tree));
 }
